@@ -12,7 +12,7 @@ In short: this folder is where the project evolved from notebook ideas into prod
 
 ---
 
-## High-level structure
+## High-Level Structure
 
 - `model_1.py`, `model_2.py`, `model_3.py`  
   Logistic-regression based detectors (federated-learning friendly).
@@ -29,9 +29,9 @@ In short: this folder is where the project evolved from notebook ideas into prod
 
 ## File-by-file intent
 
-## 1) Core Logistic Regression pipelines
+### 1) Core Logistic Regression Pipelines
 
-### `model_1.py`
+#### `model_1.py`
 **Role:** DDoS client model for federated workflows (binary benign vs attack).  
 **Intent:** Provide a corrected standalone script replacing notebook-only training with a reproducible CLI pipeline.
 
@@ -47,7 +47,7 @@ Use this when you want a **federated-client compatible Logistic model** for DDoS
 
 ---
 
-### `model_2.py`
+#### `model_2.py`
 **Role:** PortScan logistic trainer (standalone + federated-ready export).  
 **Intent:** Convert `model_2.ipynb` logic into a robust script with threshold tuning and packaged outputs.
 
@@ -66,7 +66,7 @@ Use this when you need a **strong PortScan LR baseline + threshold-aware deploym
 
 ---
 
-### `model_3.py`
+#### `model_3.py`
 **Role:** DoS detector class (`DoSDetectorFL`) designed for both standalone and federated use.  
 **Intent:** Provide a reusable Python class API (not just a one-off script) for DoS training and inference.
 
@@ -80,9 +80,9 @@ Use this when you need a **programmatic DoS model object** that can be embedded 
 
 ---
 
-## 2) Federated/multiclass training utility
+### 2) Federated/Multiclass Training Utility
 
-### `FL_model_1.py`
+#### `FL_model_1.py`
 **Role:** Multiclass logistic trainer marked as federated-ready artifact builder.  
 **Intent:** Train one multiclass Logistic Regression model with stable preprocessing and export model/scaler/features metadata.
 
@@ -97,9 +97,9 @@ Use this when you want a **single multiclass baseline** rather than separate bin
 
 ---
 
-## 3) DDoS alternatives
+### 3) DDoS Alternatives
 
-### `RF_DDoS.py`
+#### `RF_DDoS.py`
 **Role:** Random Forest DDoS detector (`RawDDoSModel`).  
 **Intent:** Offer non-linear tree-based alternative to logistic DDoS model.
 
@@ -114,7 +114,7 @@ Use this when DDoS decision boundaries are too complex for linear models.
 
 ---
 
-### `XGB_DDoS.py`
+#### `XGB_DDoS.py`
 **Role:** XGBoost DDoS detector (`RawDDoSXGBoostModel`).  
 **Intent:** Improve DDoS modeling with boosted trees and explicit imbalance handling (`scale_pos_weight`).
 
@@ -129,9 +129,9 @@ Use this when you want **higher-capacity boosted modeling** for DDoS.
 
 ---
 
-## 4) DoS alternatives
+### 4) DoS Alternatives
 
-### `RF_DoS.py`
+#### `RF_DoS.py`
 **Role:** Random Forest DoS detector (`RawDoSModel`).  
 **Intent:** Tree-based DoS classifier with stable preprocessing and threshold-aware inference.
 
@@ -145,7 +145,7 @@ Use this for **interpretable and robust non-linear DoS detection**.
 
 ---
 
-### `XGB_DoS.py`
+#### `XGB_DoS.py`
 **Role:** XGBoost DoS detector (`XGBDoSModel`).  
 **Intent:** CPU-optimized boosted-tree DoS model for stronger non-linear detection.
 
@@ -159,9 +159,9 @@ Use this for **high-performance DoS detection** under class imbalance.
 
 ---
 
-## 5) PortScan alternatives
+### 5) PortScan Alternatives
 
-### `RF_PortScan.py`
+#### `RF_PortScan.py`
 **Role:** Random Forest PortScan classifier with calibration.  
 **Intent:** Improve PortScan probability quality using calibrated RF outputs.
 
@@ -175,7 +175,7 @@ Use this when you need **better-calibrated PortScan probabilities**.
 
 ---
 
-### `XGB_PortScan.py`
+#### `XGB_PortScan.py`
 **Role:** XGBoost PortScan classifier.  
 **Intent:** Boosted-tree variant for PortScan with dynamic imbalance scaling.
 
@@ -189,9 +189,9 @@ Use this for **higher-capacity PortScan classification** than RF/LR baselines.
 
 ---
 
-## 6) Live detection scripts (runtime monitoring)
+### 6) Live Detection Scripts (Runtime Monitoring)
 
-### `live_ddos.py`
+#### `live_ddos.py`
 **Role:** Scapy-based live DDoS monitor.  
 **Intent:** Capture packets in real time, aggregate into flows, and apply logistic DDoS model inference periodically.
 
@@ -203,7 +203,7 @@ Highlights:
 
 ---
 
-### `Live_DDoS_detection.py`
+#### `Live_DDoS_detection.py`
 **Role:** PyShark/TShark live DDoS detector (Windows-oriented).  
 **Intent:** Alternative live DDoS runtime that uses PyShark capture and richer per-flow tracking.
 
@@ -215,7 +215,7 @@ Highlights:
 
 ---
 
-### `live_dos.py`
+#### `live_dos.py`
 **Role:** Live DoS detection using `DoSDetectorFL` from `model_3.py`.  
 **Intent:** Reuse class-based DoS model API for real-time flow scoring.
 
@@ -226,7 +226,7 @@ Highlights:
 
 ---
 
-### `live_portscan.py`
+#### `live_portscan.py`
 **Role:** Final PyShark live PortScan detector.  
 **Intent:** Source-IP-centric scanning detection with practical runtime heuristics.
 
@@ -238,13 +238,13 @@ Highlights:
 
 ---
 
-## 7) Serialized artifacts
+### 7) Serialized Artifacts
 
-### Root-level artifact
+#### Root-level artifact
 - `DoS_LogReg.pkl`  
   Saved DoS logistic artifact (includes model/scaler/features and metadata).
 
-### `models/` folder artifacts
+#### `models/` folder artifacts
 - `DDoS_LogReg.pkl`
 - `DDoS_RF.pkl`
 - `DDoS_XGB.pkl`
