@@ -1,5 +1,6 @@
-attack.py
-attack.py
 *.npz
 *.json
 .vscode
+raw_dataset
+attack.py
+global_processed.csv
