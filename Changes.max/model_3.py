@@ -202,7 +202,7 @@ class DoSDetectorFL:
         Xs = self.scaler.transform(X)
         return self.evaluate_arrays(Xs, y)
 
-    def save(self, path: str = "model_3_artifact.pkl") -> None:
+    def save(self, path: str = "DoS_LogReg.pkl") -> None:
         self._check_fitted()
 
         artifact = {
@@ -360,9 +360,9 @@ class DoSDetectorFL:
 if __name__ == "__main__":
 
     # Example:
-    # detector = DoSDetectorFL()
-    # metrics = detector.fit("DoS-Wednesday-no-metadata.csv")
+    detector = DoSDetectorFL()
+    metrics = detector.fit("datasets/DoS.csv")
     # print(metrics)
-    # detector.save("model_3_artifact.pkl")
+    detector.save(r"models\DoS_LogReg.pkl")
 
     print("DoSDetectorFL ready.")

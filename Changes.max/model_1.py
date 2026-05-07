@@ -98,9 +98,19 @@ MODEL_CONFIG = dict(
 )
 
 DROP_COLUMNS = [
-    # Add optional columns here if needed.
-    # Example:
-    # "Flow ID", "Source IP", "Destination IP", "Timestamp"
+    "Fwd Packets Length Total", "Bwd Packets Length Total", "Fwd Packet Length Max", 
+    "Bwd Packet Length Max", "Fwd Packet Length Min", "Bwd Packet Length Min",
+    "Fwd Packet Length Std", "Bwd Packet Length Std", "Flow IAT Std", "Flow IAT Total",
+    "Fwd IAT Std", "Fwd IAT Max", "Fwd IAT Min", "Bwd IAT Total", "Bwd IAT Std", 
+    "Bwd IAT Max", "Bwd IAT Min", "Fwd PSH Flags", "Bwd PSH Flags", "Fwd URG Flags", 
+    "Bwd URG Flags", "Packet Length Variance", "PSH Flag Count", "URG Flag Count", 
+    "CWE Flag Count", "ECE Flag Count", "Down/Up Ratio", "Avg Packet Size",
+    "Avg Fwd Segment Size", "Avg Bwd Segment Size", "Fwd Avg Bytes/Bulk", 
+    "Fwd Avg Packets/Bulk", "Fwd Avg Bulk Rate", "Bwd Avg Bytes/Bulk", 
+    "Bwd Avg Packets/Bulk", "Bwd Avg Bulk Rate", "Subflow Bwd Bytes",
+    "Init Fwd Win Bytes", "Init Bwd Win Bytes", "Fwd Act Data Packets", 
+    "Fwd Seg Size Min", "Active Mean", "Active Std", "Active Max", "Active Min",
+    "Idle Mean", "Idle Std", "Idle Max", "Idle Min"
 ]
 
 
@@ -164,8 +174,26 @@ def train_local_model(data_path, out_path):
 
     # Balance training set
     if HAS_SMOTE:
-        smote = SMOTE(random_state=RANDOM_STATE, sampling_strategy=0.5)
-        X_train_scaled, y_train = smote.fit_resample(X_train_scaled, y_train)
+        values, counts = np.unique(y_train, return_counts=True)
+        class_counts = dict(zip(values, counts))
+
+        minority = min(class_counts, key=class_counts.get)
+        majority = max(class_counts, key=class_counts.get)
+
+        min_count = class_counts[minority]
+        maj_count = class_counts[majority]
+
+        ratio = min_count / maj_count
+
+        if ratio < 0.5:
+            smote = SMOTE(
+                random_state=RANDOM_STATE,
+                sampling_strategy=0.5
+            )
+            X_train_scaled, y_train = smote.fit_resample(X_train_scaled, y_train)
+            print("SMOTE applied.")
+        else:
+            print("SMOTE skipped (classes already balanced enough).")
 
     model = LogisticRegression(**MODEL_CONFIG)
     model.fit(X_train_scaled, y_train)

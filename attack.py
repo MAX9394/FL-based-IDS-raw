@@ -5,7 +5,7 @@
 # Run as admin/root.
 # ============================================================
 
-from scapy.all import IP, TCP, UDP, ICMP, send
+from scapy.all import IP, TCP, UDP, ICMP, send, Ether, sendp
 import random
 import time
 import threading
@@ -13,7 +13,7 @@ import threading
 # =========================
 # CONFIGURATION
 # =========================
-TARGET_IP = "192.168.3.160"     # victim machine
+TARGET_IP = "10.188.191.196"     # victim machine
 TARGET_PORT = 80              # common service port
 INTERFACE = None              # None = default route
 
@@ -26,7 +26,7 @@ def rand_ip():
     return ".".join(str(random.randint(1, 254)) for _ in range(4))
 
 def send_pkt(pkt):
-    send(pkt, iface=INTERFACE, verbose=0)
+    sendp(Ether()/pkt, iface=INTERFACE, verbose=0)
 
 # ============================================================
 # BENIGN TRAFFIC
@@ -62,7 +62,7 @@ def benign_traffic():
 # ============================================================
 # PORT SCAN ATTACK
 # ============================================================
-def port_scan(start_port=1, end_port=1024, delay=0.01):
+def port_scan(start_port=1, end_port=1024, delay=0):
     """
     SYN scan across ports.
     """
@@ -161,6 +161,7 @@ if __name__ == "__main__":
     # COMMENT / UNCOMMENT ATTACKS AS NEEDED
     # --------------------------------------------------------
 
+    # port_scan()
     # port_scan()
 
     dos_syn_flood()
